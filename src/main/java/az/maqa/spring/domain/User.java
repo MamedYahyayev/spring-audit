@@ -11,7 +11,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "m_user")
-public class User {
+public class User extends AbstractAuditingEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
