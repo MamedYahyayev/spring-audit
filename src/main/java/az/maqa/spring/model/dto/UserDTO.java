@@ -1,4 +1,4 @@
-package az.maqa.spring.domain.dto;
+package az.maqa.spring.model.dto;
 
 import az.maqa.spring.domain.Authority;
 

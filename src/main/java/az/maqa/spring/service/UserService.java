@@ -1,8 +1,8 @@
 package az.maqa.spring.service;
 
+import az.maqa.spring.model.dto.UserDTO;
 import az.maqa.spring.domain.Authority;
 import az.maqa.spring.domain.User;
-import az.maqa.spring.domain.dto.UserDTO;
 import az.maqa.spring.repository.AuthorityRepository;
 import az.maqa.spring.repository.UserRepository;
 import org.slf4j.Logger;

@@ -1,7 +1,7 @@
 package az.maqa.spring.web.rest;
 
 import az.maqa.spring.domain.User;
-import az.maqa.spring.domain.dto.UserDTO;
+import az.maqa.spring.model.dto.UserDTO;
 import az.maqa.spring.repository.UserRepository;
 import az.maqa.spring.service.UserService;
 import az.maqa.spring.web.errors.EmailAlreadyUsedException;
