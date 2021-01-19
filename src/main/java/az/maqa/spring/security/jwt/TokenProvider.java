@@ -39,7 +39,7 @@ public class TokenProvider {
         byte[] keyBytes;
         keyBytes = Decoders.BASE64.decode(secret);
         key = Keys.hmacShaKeyFor(keyBytes);
-        expiration = 5 * 60 * 60;
+        expiration = 3600000;
     }
 
     public String createToken(Authentication authentication) {
@@ -48,12 +48,14 @@ public class TokenProvider {
                 .collect(Collectors.joining(","));
 
 
-        Date validity = new Date(expiration);
+        long now = (new Date()).getTime();
+        Date validity = new Date(now + expiration);
+        log.info("Validity Date {}", validity);
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
-                .signWith(SignatureAlgorithm.HS512, key)
+                .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
     }
