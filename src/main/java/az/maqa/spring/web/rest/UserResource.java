@@ -3,12 +3,14 @@ package az.maqa.spring.web.rest;
 import az.maqa.spring.domain.User;
 import az.maqa.spring.model.dto.UserDTO;
 import az.maqa.spring.repository.UserRepository;
+import az.maqa.spring.security.AuthoritiesConstants;
 import az.maqa.spring.service.UserService;
 import az.maqa.spring.web.errors.EmailAlreadyUsedException;
 import az.maqa.spring.web.errors.UsernameAlreadyUsedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +45,7 @@ public class UserResource {
      * @throws BadRequestException if username or email already used
      */
     @PostMapping("/users")
+    @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO) throws URISyntaxException {
         log.debug("Rest Request to save User {}  ", userDTO);
         if (userRepository.findOneByUsername(userDTO.getUsername().toLowerCase()).isPresent()) {
