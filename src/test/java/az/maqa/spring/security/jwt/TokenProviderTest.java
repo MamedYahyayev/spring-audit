@@ -19,28 +19,38 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TokenProviderTest {
 
-    TokenProvider tokenProvider;
-    Key key;
+    public static final int ONE_MINUTE = 60000;
+    private TokenProvider tokenProvider;
+    private Key key;
 
     @BeforeEach
     void setUp() {
         tokenProvider = new TokenProvider();
-
         key = Keys.hmacShaKeyFor(Decoders.BASE64
-                .decode("dasfdijwdoiasofdhasufhsaoufhdoasuhdasfdijwdoiasofdhasufhsaoufoadasfdijwdoiasofdhasufhsaous"));
+                .decode("fd54a45s65fds737b9aafcb3412e07ed99b267f33413274720ddbb7f6c5e64e9f14075f2d7ed041592f0b7657baf8"));
 
         ReflectionTestUtils.setField(tokenProvider, "key", key);
+        ReflectionTestUtils.setField(tokenProvider, "expiration", -ONE_MINUTE);
     }
 
     @Test
-    void createTokenTest() {
-        Authentication authentication = crateAuthentication();
+    void testReturnTrueIfTokenIsNotEmpty() {
+        Authentication authentication = createAuthentication();
         String token = tokenProvider.createToken(authentication);
-
         assertThat(token).isNotEmpty();
     }
 
-    private Authentication crateAuthentication() {
+    @Test
+    void testReturnFalseWhenTokenExpired() {
+        Authentication authentication = createAuthentication();
+        String token = tokenProvider.createToken(authentication);
+
+        boolean isValid = tokenProvider.validateToken(token);
+
+        assertThat(isValid).isEqualTo(false);
+    }
+
+    private Authentication createAuthentication() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
         return new UsernamePasswordAuthenticationToken("anonymous", "anonymous", authorities);

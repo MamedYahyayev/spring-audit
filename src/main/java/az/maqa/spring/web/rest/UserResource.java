@@ -5,6 +5,7 @@ import az.maqa.spring.model.dto.UserDTO;
 import az.maqa.spring.repository.UserRepository;
 import az.maqa.spring.security.AuthoritiesConstants;
 import az.maqa.spring.service.UserService;
+import az.maqa.spring.web.errors.BadRequestException;
 import az.maqa.spring.web.errors.EmailAlreadyUsedException;
 import az.maqa.spring.web.errors.UsernameAlreadyUsedException;
 import org.slf4j.Logger;
